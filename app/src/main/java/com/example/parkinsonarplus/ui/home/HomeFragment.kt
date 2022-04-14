@@ -1,21 +1,23 @@
 package com.example.parkinsonarplus.ui.home
 
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-//import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-//import com.example.parkinsonarplus.R
 import com.example.parkinsonarplus.databinding.FragmentHomeBinding
-
-//import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
+
+    private lateinit var sensorManager: SensorManager
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -38,7 +40,19 @@ class HomeFragment : Fragment() {
         }
 
         binding.buttonTremor.setOnClickListener {
-            println("swag")
+//            println("swag")
+            sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+            if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+                println("Success! There's an accelerometer.")
+            } else {
+                println("Failure. No accelerometer.")
+            }
+            if (sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null) {
+                println("Success! There's a gyroscope.")
+            } else {
+                println("Failure. No gyroscope.")
+            }
         }
 
         return root
