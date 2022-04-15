@@ -2,6 +2,7 @@ package com.example.parkinsonarplus.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -104,11 +105,16 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
+        val intent = Intent(this, Sensational::class.java).also { intent ->
+            requireActivity().startService(intent)
+        }
+
         if (event != null) {
 
             when (event.action) {
 
                 MotionEvent.ACTION_DOWN -> {
+
                     println("action_down")
 
                     // log/record sensor inputs
