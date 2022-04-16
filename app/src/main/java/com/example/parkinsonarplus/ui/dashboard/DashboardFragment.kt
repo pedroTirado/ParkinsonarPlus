@@ -41,11 +41,9 @@ class DashboardFragment : Fragment() {
         return root
     }
 
-    // ***********************************************************************
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        println("HomeFragmentModel.text: ${viewModel.text.value}")
+        println("HomeViewModel.text: ${viewModel.text.value}")
     }
 
     override fun onDestroyView() {

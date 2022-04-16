@@ -15,4 +15,14 @@ class HomeViewModel : ViewModel() {
         value = 0.0F
     }
     var gyroX: MutableLiveData<Float> = _gyroX
+
+    private var _gyroY = MutableLiveData<Float>().apply {
+        value = 0.0F
+    }
+    var gyroY: MutableLiveData<Float> = _gyroY
+
+    private var _gyroZ = MutableLiveData<Float>().apply {
+        value = 0.0F
+    }
+    var gyroZ: MutableLiveData<Float> = _gyroZ
 }
