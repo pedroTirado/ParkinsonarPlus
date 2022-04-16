@@ -121,11 +121,11 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
                     // log/record sensor inputs
 
                     viewModel.gyroX.value = this.gyroX // update gyroX
-                    println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
+//                    println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
                     viewModel.gyroY.value = this.gyroY // update gyroY
-                    println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
+//                    println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
                     viewModel.gyroZ.value = this.gyroZ // update gyroZ
-                    println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
+//                    println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
 
                     if (gyroX < -1 || gyroX > 1) {
                         println("gyroX: $gyroX")
