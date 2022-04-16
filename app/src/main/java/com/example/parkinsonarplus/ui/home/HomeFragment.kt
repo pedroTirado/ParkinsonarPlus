@@ -78,7 +78,7 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
 
     override fun onSensorChanged(event: SensorEvent) {
         // most sensors return 3 values, one for each axis
-        gyroX = event.values[0]
+        gyroX = event.values[0] // TODO: convert each of these to array lists...
         gyroY = event.values[1]
         gyroZ = event.values[2]
 

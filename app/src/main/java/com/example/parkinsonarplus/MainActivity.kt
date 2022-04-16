@@ -1,6 +1,5 @@
 package com.example.parkinsonarplus
 
-import android.hardware.SensorManager
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity

@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkinsonarplus.databinding.FragmentDashboardBinding
+import com.example.parkinsonarplus.ui.home.HomeFragment
+import com.example.parkinsonarplus.ui.home.HomeViewModel
 
 class DashboardFragment : Fragment() {
 
@@ -16,6 +19,8 @@ class DashboardFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private val viewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +37,15 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
         return root
+    }
+
+    // ***********************************************************************
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        println("HomeFragmentModel.text: ${viewModel.text.value}")
     }
 
     override fun onDestroyView() {

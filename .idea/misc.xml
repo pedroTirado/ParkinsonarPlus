@@ -3,13 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Jake/Documents/GitHub/ParkinsonarPlus/app/src/main/res/drawable/avatar_7.xml" value="0.272" />
-        <entry key="..\:/Users/Jake/Documents/GitHub/ParkinsonarPlus/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Jake/Documents/GitHub/ParkinsonarPlus/app/src/main/res/layout/fragment_dashboard.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Jake/Documents/GitHub/ParkinsonarPlus/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Jake/Documents/GitHub/ParkinsonarPlus/app/src/main/res/layout/fragment_notifications.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/pt0rl/ParkinsonarPlus/app/src/main/res/layout/activity_main.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/pt0rl/ParkinsonarPlus/app/src/main/res/layout/fragment_home.xml" value="0.268" />
+        <entry key="app/src/main/res/drawable/avatar_7.xml" value="0.276" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.256" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.256" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.256" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.264" />
       </map>
     </option>
   </component>
@@ -18,5 +19,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.22554347826086957" />
+      </ProjectState>
+    </option>
   </component>
 </project>
