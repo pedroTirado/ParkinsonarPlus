@@ -48,6 +48,20 @@ class DashboardFragment : Fragment() {
         println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
         println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
         println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
+
+        val textViewX: TextView = binding.textGyroX
+        val textViewY: TextView = binding.textGyroY
+        val textViewZ: TextView = binding.textGyroZ
+
+        viewModel.gyroX.observe(viewLifecycleOwner) {
+            textViewX.text = it.toString()
+        }
+        viewModel.gyroY.observe(viewLifecycleOwner) {
+            textViewY.text = it.toString()
+        }
+        viewModel.gyroZ.observe(viewLifecycleOwner) {
+            textViewZ.text = it.toString()
+        }
     }
 
     override fun onDestroyView() {
