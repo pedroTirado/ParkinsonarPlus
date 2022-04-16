@@ -105,9 +105,6 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
-        val intent = Intent(this.requireContext(), Sensational::class.java).also { intent ->
-            requireActivity().startService(intent)
-        }
 
         if (event != null) {
 
@@ -115,21 +112,25 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
 
                 MotionEvent.ACTION_DOWN -> {
 
+                    val intent =  Intent(this.requireContext(), Sensational::class.java).also { intent ->
+                        requireContext().startService(intent)
+                    }
+
                     println("action_down")
 
                     // log/record sensor inputs
 
-                    if (gyroX > -0.5 || gyroX > 0.5) {
+                    if (gyroX < -1 || gyroX > 1) {
 
-                        println("gyroX detectable input")
+                        println("gyroX: $gyroX")
                     }
-                    if (gyroY > -0.5 || gyroY > 0.5) {
+                    if (gyroY < -1 || gyroY > 1) {
 
-                        println("gyroY detectable input")
+                        println("gyroY: $gyroY")
                     }
-                    if (gyroZ > -0.5 || gyroZ > 0.5) {
+                    if (gyroZ < -1 || gyroZ > 1) {
 
-                        println("gyroZ detectable input")
+                        println("gyroZ $gyroZ")
                     }
 
                     buttonDown = true
