@@ -56,7 +56,7 @@
         android:contentDescription="@string/avatar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@drawable/avatar_7" />
 
     <TableLayout
 
