@@ -32,9 +32,6 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     private var mGyro: Sensor? = null
     private var mGravity: Sensor? = null
 
-    private var buttonClick: Boolean = false
-    private var buttonDown: Boolean = false
-
     private var gyroX: Float = 0F // rate of rotation around x-axis (rad/s)
     private var gyroY: Float = 0F
     private var gyroZ: Float = 0F
@@ -113,56 +110,37 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
         if (event != null) {
-
             when (event.action) {
-
                 MotionEvent.ACTION_DOWN -> {
+                    println("action_down")
 
                     sensational =  Intent(this.requireContext(), Sensational::class.java).also { intent ->
                         requireContext().startService(intent)
                     }
 
-                    println("action_down")
-
                     // log/record sensor inputs
 
-                    if (gyroX < -1 || gyroX > 1) {
+                    viewModel.gyroX.value = this.gyroX // update gyroX
+                    println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
+                    viewModel.gyroY.value = this.gyroY // update gyroY
+                    println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
+                    viewModel.gyroZ.value = this.gyroZ // update gyroZ
+                    println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
 
+                    if (gyroX < -1 || gyroX > 1) {
                         println("gyroX: $gyroX")
                     }
                     if (gyroY < -1 || gyroY > 1) {
-
                         println("gyroY: $gyroY")
                     }
                     if (gyroZ < -1 || gyroZ > 1) {
-
                         println("gyroZ $gyroZ")
                     }
-
-//                    viewModel.text.observe(viewLifecycleOwner, Observer { "swag moneyy" })
-//
-//                    viewModel.text.apply { newVal: LiveData<String>? = "swag money" }
-
-                    val gyroXObserver = Observer<Float> {this.gyroX}
-
-                    viewModel.gyroX.observe(this, gyroXObserver)
-
-                    viewModel.gyroX.value = this.gyroX
-
-                    println("HomeFragmentModel.gyroX: ${viewModel.gyroX.value}")
-
-                    buttonDown = true
-
                     return true
                 }
-
                 MotionEvent.ACTION_UP -> {
                     println("action_up")
-
                     this.requireContext().stopService(sensational)
-
-                    buttonDown = false
-
                     return true
                 }
             }
