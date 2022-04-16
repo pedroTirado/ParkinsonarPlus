@@ -96,6 +96,7 @@
                 tools:layout_editor_absoluteY="365dp" />
 
             <TextView
+                android:id="@+id/text_gyro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
@@ -142,7 +143,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/gyroBox0"
+                android:id="@+id/text_gyroX"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="1"
@@ -184,6 +185,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
+                android:id="@+id/text_gyroY"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="1"
@@ -224,8 +226,9 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
+                android:id="@+id/text_gyroZ"
                 android:layout_width="wrap_content"
-                android:layout_height="83dp"
+                android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
