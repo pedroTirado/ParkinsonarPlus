@@ -36,6 +36,8 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     private var gyroY: Float = 0F
     private var gyroZ: Float = 0F
 
+    var sensational: Intent? = null
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -105,14 +107,13 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
-
         if (event != null) {
 
             when (event.action) {
 
                 MotionEvent.ACTION_DOWN -> {
 
-                    val intent =  Intent(this.requireContext(), Sensational::class.java).also { intent ->
+                    sensational =  Intent(this.requireContext(), Sensational::class.java).also { intent ->
                         requireContext().startService(intent)
                     }
 
@@ -140,6 +141,8 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
 
                 MotionEvent.ACTION_UP -> {
                     println("action_up")
+
+                    this.requireContext().stopService(sensational)
 
                     buttonDown = false
 
