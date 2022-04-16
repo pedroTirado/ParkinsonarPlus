@@ -49,16 +49,31 @@ class Sensational : Service() {
 
 //        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
 
-        println("service started0")
+        println("service started")
+
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
-        serviceHandler?.obtainMessage()?.also { msg ->
-            msg.arg1 = startId
-            serviceHandler?.sendMessage(msg)
-
-
-            return 1+1
-        }
+//        serviceHandler?.obtainMessage()?.also { msg ->
+//            msg.arg1 = startId
+//            serviceHandler?.sendMessage(msg)
+//
+//
+//            return 1+1
+//        }
         return START_NOT_STICKY
+    }
+
+    override fun stopService(name: Intent?): Boolean {
+
+        println("service stopped")
+
+        return super.stopService(name)
+    }
+
+    override fun onDestroy() {
+
+        println("service destroyed")
+
+        super.onDestroy()
     }
 }
