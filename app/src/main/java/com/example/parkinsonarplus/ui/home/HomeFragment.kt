@@ -105,7 +105,7 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
-        val intent = Intent(this, Sensational::class.java).also { intent ->
+        val intent = Intent(this.requireContext(), Sensational::class.java).also { intent ->
             requireActivity().startService(intent)
         }
 
