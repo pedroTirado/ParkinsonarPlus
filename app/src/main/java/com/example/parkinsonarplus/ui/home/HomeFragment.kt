@@ -15,6 +15,9 @@ import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkinsonarplus.databinding.FragmentHomeBinding
 
@@ -37,6 +40,8 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     private var gyroZ: Float = 0F
 
     var sensational: Intent? = null
+
+    private val viewModel: HomeViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -133,6 +138,18 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
 
                         println("gyroZ $gyroZ")
                     }
+
+//                    viewModel.text.observe(viewLifecycleOwner, Observer { "swag moneyy" })
+//
+//                    viewModel.text.apply { newVal: LiveData<String>? = "swag money" }
+
+                    val gyroXObserver = Observer<Float> {this.gyroX}
+
+                    viewModel.gyroX.observe(this, gyroXObserver)
+
+                    viewModel.gyroX.value = this.gyroX
+
+                    println("HomeFragmentModel.gyroX: ${viewModel.gyroX.value}")
 
                     buttonDown = true
 
