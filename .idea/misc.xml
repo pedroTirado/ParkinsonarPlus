@@ -5,12 +5,15 @@
       <map>
         <entry key="..\:/Users/pt0rl/ParkinsonarPlus/app/src/main/res/layout/activity_main.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/pt0rl/ParkinsonarPlus/app/src/main/res/layout/fragment_home.xml" value="0.268" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.377" />
         <entry key="app/src/main/res/drawable/avatar_7.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.256" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.256" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.256" />
-        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.4" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.3984375" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.377" />
       </map>
     </option>
   </component>
