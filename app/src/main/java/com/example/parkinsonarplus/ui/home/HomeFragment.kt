@@ -58,9 +58,17 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var gravYAvg: Float = 0F
     private var gravZAvg: Float = 0F
 
+    private var laccelXAvg: Float = 0F
+    private var laccelYAvg: Float = 0F
+    private var laccelZAvg: Float = 0F
+
     private var gravXList: ArrayList<Float>? = null
     private var gravYList: ArrayList<Float>? = null
     private var gravZList: ArrayList<Float>? = null
+
+    private var laccelXList: ArrayList<Float>? = null
+    private var laccelYList: ArrayList<Float>? = null
+    private var laccelZList: ArrayList<Float>? = null
 
     private val viewModel: HomeViewModel by activityViewModels() // for inter-fragment communication
 
@@ -90,10 +98,15 @@ class HomeFragment : Fragment(), SensorEventListener {
         mGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
         mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
+        mLinaccel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
 
         gravXList = ArrayList<Float>(20)
         gravYList = ArrayList<Float>(20)
         gravZList = ArrayList<Float>(20)
+
+        laccelXList = ArrayList<Float>(20)
+        laccelYList = ArrayList<Float>(20)
+        laccelZList = ArrayList<Float>(20)
 
         return root
     }
@@ -143,23 +156,39 @@ class HomeFragment : Fragment(), SensorEventListener {
                             mHandler!!.removeCallbacks(mAction)
                             mHandler = null
 
-                            println("gravXList: ${gravXList.toString()}")
-                            println("gravYList: ${gravYList.toString()}")
-                            println("gravZList: ${gravZList.toString()}")
+//                            println("gravXList: ${gravXList.toString()}")
+//                            println("gravYList: ${gravYList.toString()}")
+//                            println("gravZList: ${gravZList.toString()}")
+
+                            println("laccelXList: ${laccelXList.toString()}")
+                            println("laccelYList: ${laccelYList.toString()}")
+                            println("laccelZList: ${laccelZList.toString()}")
 
                             // average the sensor values
-                            gravXAvg = takeAvg(gravXList)
-                            gravYAvg = takeAvg(gravYList)
-                            gravZAvg = takeAvg(gravZList)
+//                            gravXAvg = takeAvg(gravXList)
+//                            gravYAvg = takeAvg(gravYList)
+//                            gravZAvg = takeAvg(gravZList)
 
-                            println("gravXAvg: $gravXAvg")
-                            println("gravYAvg: $gravYAvg")
-                            println("gravZAvg: $gravZAvg")
+                            laccelXAvg = takeAvg(laccelXList)
+                            laccelYAvg = takeAvg(laccelYList)
+                            laccelZAvg = takeAvg(laccelZList)
+
+//                            println("gravXAvg: $gravXAvg")
+//                            println("gravYAvg: $gravYAvg")
+//                            println("gravZAvg: $gravZAvg")
+
+                            println("laccelXAvg: $laccelXAvg")
+                            println("laccelYAvg: $laccelYAvg")
+                            println("laccelZAvg: $laccelZAvg")
 
                             // clear the arraylists (to conserve memory & start fresh for next button press)
-                            gravXList?.clear()
-                            gravYList?.clear()
-                            gravZList?.clear()
+//                            gravXList?.clear()
+//                            gravYList?.clear()
+//                            gravZList?.clear()
+
+                            laccelXList?.clear()
+                            laccelYList?.clear()
+                            laccelZList?.clear()
 
                             // call method(s) to evaluate resting tremor given averaged sensor readings
                         }
@@ -178,9 +207,13 @@ class HomeFragment : Fragment(), SensorEventListener {
 //                    println("gravZ: $gravZ")
 //                    println("====================================================================")
 
-                    gravXList?.add(gravX)
-                    gravYList?.add(gravY)
-                    gravZList?.add(gravZ)
+//                    gravXList?.add(gravX)
+//                    gravYList?.add(gravY)
+//                    gravZList?.add(gravZ)
+
+                    laccelXList?.add(laccelX)
+                    laccelYList?.add(laccelY)
+                    laccelZList?.add(laccelZ)
 
                     mHandler?.postDelayed(this, 1000)
                 }
@@ -213,13 +246,13 @@ class HomeFragment : Fragment(), SensorEventListener {
 //        gyroY = event.values[1]
 //        gyroZ = event.values[2]
 
-        gravX = event.values[0] // TODO: convert each of these to array lists...
-        gravY = event.values[1]
-        gravZ = event.values[2]
+//        gravX = event.values[0] // TODO: convert each of these to array lists...
+//        gravY = event.values[1]
+//        gravZ = event.values[2]
 
-//        println("event.values[0]: $mov0")
-//        println("event.values[1]: $mov1")
-//        println("event.values[2]: $mov2")
+        laccelX = event.values[0] // TODO: convert each of these to array lists...
+        laccelY = event.values[1]
+        laccelZ = event.values[2]
     }
 
     override fun onResume() {
