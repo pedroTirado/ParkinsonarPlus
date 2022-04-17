@@ -16,10 +16,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.797"
+        app:layout_constraintHorizontal_bias="0.759"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.103" />
+        app:layout_constraintVertical_bias="0.077" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text=" Date "
+                android:text="@string/sensor_axis"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
                 tools:layout_conversion_absoluteHeight="59dp"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text="Gyro "
+                android:text="@string/gyro"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
                 tools:layout_conversion_absoluteHeight="55dp"
@@ -109,18 +109,7 @@
                 tools:layout_editor_absoluteX="174dp"
                 tools:layout_editor_absoluteY="366dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text="Calories"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:layout_conversion_absoluteHeight="54dp"
-                tools:layout_conversion_absoluteWidth="122dp"
-                tools:layout_editor_absoluteX="265dp"
-                tools:layout_editor_absoluteY="367dp" />
+
         </TableRow>
 
         <TableRow
@@ -139,7 +128,7 @@
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text=" Text"
+                android:text="@string/gyro_x"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -153,15 +142,6 @@
                 android:text=" Text"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_column="2"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
         </TableRow>
 
 
@@ -181,7 +161,7 @@
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text=" Text"
+                android:text="Gyro Y"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -195,15 +175,7 @@
                 android:text=" Text"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_column="2"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+
         </TableRow>
 
         <TableRow
@@ -222,7 +194,7 @@
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text=" Text"
+                android:text="Gyro Z"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -236,19 +208,47 @@
                 android:text=" Text"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="83dp"
-                android:layout_column="2"
-                android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text=" Text"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+
         </TableRow>
 
 
+
     </TableLayout>
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="158dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout2"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="196dp"
+        android:layout_height="40dp"
+        android:text="Data captured on:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout2"
+        app:layout_constraintEnd_toStartOf="@+id/editTextDate"
+        app:layout_constraintHorizontal_bias="0.727"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.796" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="193dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:text="Tremor Detected:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

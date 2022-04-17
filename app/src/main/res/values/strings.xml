@@ -6,4 +6,9 @@
     <string name="sign_up">Sign Up</string>
     <string name="avatar">Avatar</string>
     <string name="enter_email_for_updates">Enter Email for Updates</string>
+    <string name="gyro_x">Gyro X</string>
+    <string name="gyro">Gyro</string>
+    <string name="text">Text</string>
+    <string name="calories">Calories</string>
+    <string name="sensor_axis">Sensor Axis</string>
 </resources>
