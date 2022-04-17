@@ -64,8 +64,8 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
         mGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-//        mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-//        mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
+        mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
 
 
         binding.buttonTremor.setOnTouchListener(this)
@@ -101,7 +101,7 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
         sensorManager.unregisterListener(this)
     }
 
-        override fun onDestroyView() {
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
@@ -114,11 +114,14 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
                 MotionEvent.ACTION_DOWN -> {
                     println("action_down")
 
-                    sensational =  Intent(this.requireContext(), Sensational::class.java).also { intent ->
-                        requireContext().startService(intent)
-                    }
+//                    sensational =  Intent(this.requireContext(), Sensational::class.java).also { intent ->
+//                        requireContext().startService(intent)
+//                        requireContext().onS
+//                    }
 
-                    // log/record sensor inputs
+
+
+                     // log/record sensor inputs
 
                     viewModel.gyroX.value = this.gyroX // update gyroX
 //                    println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
@@ -140,7 +143,7 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
                 }
                 MotionEvent.ACTION_UP -> {
                     println("action_up")
-                    this.requireContext().stopService(sensational)
+//                    this.requireContext().stopService(sensational)
                     return true
                 }
             }
