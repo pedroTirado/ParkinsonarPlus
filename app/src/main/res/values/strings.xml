@@ -11,4 +11,5 @@
     <string name="text">Text</string>
     <string name="calories">Calories</string>
     <string name="sensor_axis">Sensor Axis</string>
+    <string name="data_captured_on">Data captured on:</string>
 </resources>
