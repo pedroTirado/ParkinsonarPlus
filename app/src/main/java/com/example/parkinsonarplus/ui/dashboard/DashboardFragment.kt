@@ -43,8 +43,6 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-//        println("HomeViewModel.text: ${viewModel.text.value}")
-
         println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
         println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
         println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
