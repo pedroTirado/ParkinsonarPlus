@@ -113,6 +113,11 @@ class HomeFragment : Fragment(), SensorEventListener/*,OnTouchListener*/{
                         else {
                             mHandler!!.removeCallbacks(mAction)
                             mHandler = null
+
+                            // average the sensor values
+                            //...
+
+                            // call method(s) to evaluate resting tremor given averaged sensor readings
                         }
                     }
                 }
