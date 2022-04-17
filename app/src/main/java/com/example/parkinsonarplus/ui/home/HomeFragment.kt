@@ -1,5 +1,6 @@
 package com.example.parkinsonarplus.ui.home
 
+import android.R
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,8 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -16,13 +19,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkinsonarplus.databinding.FragmentHomeBinding
 
 
-class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
+class HomeFragment : Fragment(), SensorEventListener/*,OnTouchListener*/{
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -35,8 +36,6 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     private var gyroX: Float = 0F // rate of rotation around x-axis (rad/s)
     private var gyroY: Float = 0F
     private var gyroZ: Float = 0F
-
-    var sensational: Intent? = null
 
     private val viewModel: HomeViewModel by activityViewModels()
 
@@ -67,10 +66,69 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
         mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
 
-
-        binding.buttonTremor.setOnTouchListener(this)
-
         return root
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        // log/record sensor inputs
+
+//        viewModel.gyroX.value = this.gyroX // update gyroX
+//        println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
+//        viewModel.gyroY.value = this.gyroY // update gyroY
+//        println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
+//        viewModel.gyroZ.value = this.gyroZ // update gyroZ
+//        println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
+//
+//        if (gyroX < -1 || gyroX > 1) {
+//            println("gyroX: $gyroX")
+//        }
+//        if (gyroY < -1 || gyroY > 1) {
+//            println("gyroY: $gyroY")
+//        }
+//        if (gyroZ < -1 || gyroZ > 1) {
+//            println("gyroZ $gyroZ")
+//        }
+
+        binding.buttonTremor.setOnTouchListener(object : OnTouchListener {
+
+            private var mHandler: Handler? = null
+
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+
+                        if (mHandler != null)
+                            return true
+                        else {
+                            mHandler = Handler(Looper.getMainLooper())
+                            mHandler!!.postDelayed(mAction, 0)
+                        }
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        if (mHandler == null)
+                            return true
+                        else {
+                            mHandler!!.removeCallbacks(mAction)
+                            mHandler = null
+                        }
+                    }
+                }
+                return false
+            }
+
+            var mAction: Runnable = object : Runnable {
+                override fun run() {
+                    println("gyroX: $gyroX")
+                    println("gyroY: $gyroY")
+                    println("gyroZ: $gyroZ")
+
+                    mHandler?.postDelayed(this, 1000)
+                }
+            }
+        })
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -104,50 +162,5 @@ class HomeFragment : Fragment(), SensorEventListener, OnTouchListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-
-        if (event != null) {
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    println("action_down")
-
-//                    sensational =  Intent(this.requireContext(), Sensational::class.java).also { intent ->
-//                        requireContext().startService(intent)
-//                        requireContext().onS
-//                    }
-
-
-
-                     // log/record sensor inputs
-
-                    viewModel.gyroX.value = this.gyroX // update gyroX
-//                    println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
-                    viewModel.gyroY.value = this.gyroY // update gyroY
-//                    println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
-                    viewModel.gyroZ.value = this.gyroZ // update gyroZ
-//                    println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
-
-                    if (gyroX < -1 || gyroX > 1) {
-                        println("gyroX: $gyroX")
-                    }
-                    if (gyroY < -1 || gyroY > 1) {
-                        println("gyroY: $gyroY")
-                    }
-                    if (gyroZ < -1 || gyroZ > 1) {
-                        println("gyroZ $gyroZ")
-                    }
-                    return true
-                }
-                MotionEvent.ACTION_UP -> {
-                    println("action_up")
-//                    this.requireContext().stopService(sensational)
-                    return true
-                }
-            }
-        }
-        return false
     }
 }
