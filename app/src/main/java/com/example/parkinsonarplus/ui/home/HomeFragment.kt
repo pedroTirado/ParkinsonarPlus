@@ -28,19 +28,19 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
 
-    private var mGyro: Sensor? = null // gyroscope (raw input; hardware-based)
-    private var mAccel: Sensor? = null // accelerometer (raw input; hardware-based)
+//    private var mGyro: Sensor? = null // gyroscope (raw input; hardware-based)
+//    private var mAccel: Sensor? = null // accelerometer (raw input; hardware-based)
     private var mGravity: Sensor? = null // gravity sensor (non-raw input; software-based)
     private var mLinaccel: Sensor? = null // linear accelerometer (non-raw input; software-based)
     private var mRotvec: Sensor? = null // rotation vector sensor (non-raw input; software-based)
 
-    private var gyroX: Float = 0F // rate of rotation around x-axis (rad/s)
-    private var gyroY: Float = 0F
-    private var gyroZ: Float = 0F
+//    private var gyroX: Float = 0F // rate of rotation around x-axis (rad/s)
+//    private var gyroY: Float = 0F
+//    private var gyroZ: Float = 0F
 
-    private var accelX: Float = 0F // acceleration applied to device, including gravity (m/s^2)
-    private var accelY: Float = 0F
-    private var accelZ: Float = 0F
+//    private var accelX: Float = 0F // acceleration applied to device, including gravity (m/s^2)
+//    private var accelY: Float = 0F
+//    private var accelZ: Float = 0F
 
     private var gravX: Float = 0F // x-component gravitational force (m/s^2)
     private var gravY: Float = 0F
@@ -54,6 +54,8 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var rotvecY: Float = 0F
     private var rotvecZ: Float = 0F
 
+    // =======================================================================
+
     private var gravXAvg: Float = 0F
     private var gravYAvg: Float = 0F
     private var gravZAvg: Float = 0F
@@ -65,6 +67,8 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var rotXAvg: Float = 0F
     private var rotYAvg: Float = 0F
     private var rotZAvg: Float = 0F
+
+    // =======================================================================
 
     private var gravXList: ArrayList<Float>? = null
     private var gravYList: ArrayList<Float>? = null
@@ -103,8 +107,8 @@ class HomeFragment : Fragment(), SensorEventListener {
 
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-        mGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-        mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+//        mGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+//        mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
         mLinaccel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         mRotvec = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
@@ -129,23 +133,6 @@ class HomeFragment : Fragment(), SensorEventListener {
 
         // log/record sensor inputs
 
-//        viewModel.gyroX.value = this.gyroX // update gyroX
-//        println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
-//        viewModel.gyroY.value = this.gyroY // update gyroY
-//        println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
-//        viewModel.gyroZ.value = this.gyroZ // update gyroZ
-//        println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
-//
-//        if (gyroX < -1 || gyroX > 1) {
-//            println("gyroX: $gyroX")
-//        }
-//        if (gyroY < -1 || gyroY > 1) {
-//            println("gyroY: $gyroY")
-//        }
-//        if (gyroZ < -1 || gyroZ > 1) {
-//            println("gyroZ $gyroZ")
-//        }
-
         binding.buttonTremor.setOnTouchListener(object : OnTouchListener {
 
             private var mHandler: Handler? = null
@@ -169,51 +156,59 @@ class HomeFragment : Fragment(), SensorEventListener {
                             mHandler!!.removeCallbacks(mAction)
                             mHandler = null
 
-//                            println("gravXList: ${gravXList.toString()}")
-//                            println("gravYList: ${gravYList.toString()}")
-//                            println("gravZList: ${gravZList.toString()}")
+                            println("gravXList: ${gravXList.toString()}")
+                            println("gravYList: ${gravYList.toString()}")
+                            println("gravZList: ${gravZList.toString()}")
 
-//                            println("laccelXList: ${laccelXList.toString()}")
-//                            println("laccelYList: ${laccelYList.toString()}")
-//                            println("laccelZList: ${laccelZList.toString()}")
+                            println("=====================================================")
+
+                            println("laccelXList: ${laccelXList.toString()}")
+                            println("laccelYList: ${laccelYList.toString()}")
+                            println("laccelZList: ${laccelZList.toString()}")
+
+                            println("=====================================================")
 
                             println("rotXList: ${rotXList.toString()}")
                             println("rotYList: ${rotYList.toString()}")
                             println("rotZList: ${rotZList.toString()}")
 
                             // average the sensor values
-//                            gravXAvg = takeAvg(gravXList)
-//                            gravYAvg = takeAvg(gravYList)
-//                            gravZAvg = takeAvg(gravZList)
+                            gravXAvg = takeAvg(gravXList)
+                            gravYAvg = takeAvg(gravYList)
+                            gravZAvg = takeAvg(gravZList)
 
-//                            laccelXAvg = takeAvg(laccelXList)
-//                            laccelYAvg = takeAvg(laccelYList)
-//                            laccelZAvg = takeAvg(laccelZList)
+                            laccelXAvg = takeAvg(laccelXList)
+                            laccelYAvg = takeAvg(laccelYList)
+                            laccelZAvg = takeAvg(laccelZList)
 
                             rotXAvg = takeAvg(rotXList)
                             rotYAvg = takeAvg(rotYList)
                             rotZAvg = takeAvg(rotZList)
 
-//                            println("gravXAvg: $gravXAvg")
-//                            println("gravYAvg: $gravYAvg")
-//                            println("gravZAvg: $gravZAvg")
+                            println("gravXAvg: $gravXAvg")
+                            println("gravYAvg: $gravYAvg")
+                            println("gravZAvg: $gravZAvg")
 
-//                            println("laccelXAvg: $laccelXAvg")
-//                            println("laccelYAvg: $laccelYAvg")
-//                            println("laccelZAvg: $laccelZAvg")
+                            println("=====================================================")
+
+                            println("laccelXAvg: $laccelXAvg")
+                            println("laccelYAvg: $laccelYAvg")
+                            println("laccelZAvg: $laccelZAvg")
+
+                            println("=====================================================")
 
                             println("rotXAvg: $rotXAvg")
                             println("rotYAvg: $rotYAvg")
                             println("rotZAvg: $rotZAvg")
 
                             // clear the arraylists (to conserve memory & start fresh for next button press)
-//                            gravXList?.clear()
-//                            gravYList?.clear()
-//                            gravZList?.clear()
+                            gravXList?.clear()
+                            gravYList?.clear()
+                            gravZList?.clear()
 
-//                            laccelXList?.clear()
-//                            laccelYList?.clear()
-//                            laccelZList?.clear()
+                            laccelXList?.clear()
+                            laccelYList?.clear()
+                            laccelZList?.clear()
 
                             rotXList?.clear()
                             rotYList?.clear()
@@ -228,21 +223,14 @@ class HomeFragment : Fragment(), SensorEventListener {
 
             var mAction: Runnable = object : Runnable {
                 override fun run() {
-//                    println("gyroX: $gyroX")
-//                    println("gyroY: $gyroY")
-//                    println("gyroZ: $gyroZ")
-//                    println("gravX: $gravX")
-//                    println("gravY: $gravY")
-//                    println("gravZ: $gravZ")
-//                    println("====================================================================")
 
-//                    gravXList?.add(gravX)
-//                    gravYList?.add(gravY)
-//                    gravZList?.add(gravZ)
+                    gravXList?.add(gravX)
+                    gravYList?.add(gravY)
+                    gravZList?.add(gravZ)
 
-//                    laccelXList?.add(laccelX)
-//                    laccelYList?.add(laccelY)
-//                    laccelZList?.add(laccelZ)
+                    laccelXList?.add(laccelX)
+                    laccelYList?.add(laccelY)
+                    laccelZList?.add(laccelZ)
 
                     rotXList?.add(rotvecX)
                     rotYList?.add(rotvecY)
@@ -275,27 +263,36 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent) {
         // most sensors return 3 values, one for each axis
-//        gyroX = event.values[0]
-//        gyroY = event.values[1]
-//        gyroZ = event.values[2]
 
-//        gravX = event.values[0]
-//        gravY = event.values[1]
-//        gravZ = event.values[2]
-
-//        laccelX = event.values[0]
-//        laccelY = event.values[1]
-//        laccelZ = event.values[2]
-
-        rotvecX = event.values[0]
-        rotvecY = event.values[1]
-        rotvecZ = event.values[2]
+        if (event.sensor.type == Sensor.TYPE_GRAVITY) {
+            gravX = event.values[0]
+            gravY = event.values[1]
+            gravZ = event.values[2]
+        } else if (event.sensor.type == Sensor.TYPE_LINEAR_ACCELERATION) {
+            laccelX = event.values[0]
+            laccelY = event.values[1]
+            laccelZ = event.values[2]
+        } else if (event.sensor.type == Sensor.TYPE_ROTATION_VECTOR) {
+            rotvecX = event.values[0]
+            rotvecY = event.values[1]
+            rotvecZ = event.values[2]
+        } else {
+            println("WARN: Attempting to listen to sensor of unknown type!")
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        mGyro?.also { gyroscope ->
-            sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL)
+        mGravity?.also { gravity ->
+            sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+
+        mLinaccel?.also { laccelerometer ->
+            sensorManager.registerListener(this, laccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+
+        mRotvec?.also { rotvector ->
+            sensorManager.registerListener(this, rotvector, SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
 
