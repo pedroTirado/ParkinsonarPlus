@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -43,22 +44,44 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        println("HomeViewModel.gyroX: ${viewModel.gyroX.value}")
-        println("HomeViewModel.gyroY: ${viewModel.gyroY.value}")
-        println("HomeViewModel.gyroZ: ${viewModel.gyroZ.value}")
+        var isFlat: Boolean = false // device is not in flat orientation
+        var isShaky: Boolean = false // linear accel. is significant
 
-        val textViewX: TextView = binding.textGyroX
-        val textViewY: TextView = binding.textGyroY
-        val textViewZ: TextView = binding.textGyroZ
+        val textView0: TextView = binding.textFlat
+        val textView1: TextView = binding.textAccel
+        val textView2: TextView = binding.textTremor
 
-        viewModel.gyroX.observe(viewLifecycleOwner) {
-            textViewX.text = it.toString()
-        }
-        viewModel.gyroY.observe(viewLifecycleOwner) {
-            textViewY.text = it.toString()
-        }
-        viewModel.gyroZ.observe(viewLifecycleOwner) {
-            textViewZ.text = it.toString()
+        if (viewModel.atRest.value == true) {
+            if (viewModel.gravZ.value!! > 9.0F) {
+                textView0.text = "Yes"
+                isFlat = true
+            } else {
+                textView0.text = "No"
+            }
+            if (viewModel.laccelMagn.value!! > 1.0F) {
+                textView1.text = "Severe"
+                isShaky = true
+            } else if (viewModel.laccelMagn.value!! > 0.7F) {
+                textView1.text = "Moderate"
+                isShaky = true
+            } else if (viewModel.laccelMagn.value!! > 0.5F) {
+                textView1.text = "Mild"
+                isShaky = true
+            } else {
+                textView1.text = "None"
+            }
+
+            if (isFlat) {
+                if (isShaky) {
+                    textView2.text = "Yes"
+                } else {
+                    textView2.text = "No"
+                }
+            } else {
+                Toast.makeText(this.requireContext(), "Make sure your device screen is facing\n straight up when you record!", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(this.requireContext(), "You must first record device on stationary surface!", Toast.LENGTH_LONG).show()
         }
     }
 

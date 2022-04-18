@@ -11,18 +11,18 @@ class HomeViewModel : ViewModel() {
     }
     var text: LiveData<String> = _text
 
-    private var _gyroX = MutableLiveData<Float>().apply {
+    private var _gravZ = MutableLiveData<Float>().apply {
         value = 0.0F
     }
-    var gyroX: MutableLiveData<Float> = _gyroX
+    var gravZ: MutableLiveData<Float> = _gravZ
 
-    private var _gyroY = MutableLiveData<Float>().apply {
+    private var _laccelMagn = MutableLiveData<Float>().apply {
         value = 0.0F
     }
-    var gyroY: MutableLiveData<Float> = _gyroY
+    var laccelMagn: MutableLiveData<Float> = _laccelMagn
 
-    private var _gyroZ = MutableLiveData<Float>().apply {
-        value = 0.0F
+    private var _atRest = MutableLiveData<Boolean>().apply {
+        value = false
     }
-    var gyroZ: MutableLiveData<Float> = _gyroZ
+    var atRest: MutableLiveData<Boolean> = _atRest
 }
