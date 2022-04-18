@@ -30,7 +30,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
 
 //    private var mGyro: Sensor? = null // gyroscope (raw input; hardware-based)
-//    private var mAccel: Sensor? = null // accelerometer (raw input; hardware-based)
+    private var mAccel: Sensor? = null // accelerometer (raw input; hardware-based)
     private var mGravity: Sensor? = null // gravity sensor (non-raw input; software-based)
     private var mLinaccel: Sensor? = null // linear accelerometer (non-raw input; software-based)
     private var mRotvec: Sensor? = null // rotation vector sensor (non-raw input; software-based)
@@ -39,9 +39,9 @@ class HomeFragment : Fragment(), SensorEventListener {
 //    private var gyroY: Float = 0F
 //    private var gyroZ: Float = 0F
 
-//    private var accelX: Float = 0F // acceleration applied to device, including gravity (m/s^2)
-//    private var accelY: Float = 0F
-//    private var accelZ: Float = 0F
+    private var accelX: Float = 0F // acceleration applied to device, including gravity (m/s^2)
+    private var accelY: Float = 0F
+    private var accelZ: Float = 0F
 
     private var gravX: Float = 0F // x-component gravitational force (m/s^2)
     private var gravY: Float = 0F
@@ -58,6 +58,10 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     // =======================================================================
 
+    private var accelXAvg: Float = 0F
+    private var accelYAvg: Float = 0F
+    private var accelZAvg: Float = 0F
+
     private var gravXAvg: Float = 0F
     private var gravYAvg: Float = 0F
     private var gravZAvg: Float = 0F
@@ -72,6 +76,10 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var rotWAvg: Float = 0F
 
     // =======================================================================
+
+    private var accelXList: ArrayList<Float>? = null
+    private var accelYList: ArrayList<Float>? = null
+    private var accelZList: ArrayList<Float>? = null
 
     private var gravXList: ArrayList<Float>? = null
     private var gravYList: ArrayList<Float>? = null
@@ -112,10 +120,14 @@ class HomeFragment : Fragment(), SensorEventListener {
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
 //        mGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-//        mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
         mLinaccel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         mRotvec = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+
+        accelXList = ArrayList<Float>(20)
+        accelYList = ArrayList<Float>(20)
+        accelZList = ArrayList<Float>(20)
 
         gravXList = ArrayList<Float>(20)
         gravYList = ArrayList<Float>(20)
@@ -149,8 +161,6 @@ class HomeFragment : Fragment(), SensorEventListener {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
 
-//                        Toast.makeText(view.context, "Keep pressing down for 10 seconds!", Toast.LENGTH_LONG).show()
-
                         if (mHandler != null)
                             return true
                         else {
@@ -166,6 +176,10 @@ class HomeFragment : Fragment(), SensorEventListener {
                             mHandler = null
 
                             countdown = 10 // reset countdown
+
+                            println("accelXList: ${accelXList.toString()}")
+                            println("accelYList: ${accelYList.toString()}")
+                            println("accelZList: ${accelZList.toString()}")
 
                             println("gravXList: ${gravXList.toString()}")
                             println("gravYList: ${gravYList.toString()}")
@@ -185,6 +199,10 @@ class HomeFragment : Fragment(), SensorEventListener {
 //                            println("rotWList: ${rotWList.toString()}")
 
                             // average the sensor values
+                            accelXAvg = takeAvg(accelXList)
+                            accelYAvg = takeAvg(accelYList)
+                            accelZAvg = takeAvg(accelZList)
+
                             gravXAvg = takeAvg(gravXList)
                             gravYAvg = takeAvg(gravYList)
                             gravZAvg = takeAvg(gravZList)
@@ -197,6 +215,12 @@ class HomeFragment : Fragment(), SensorEventListener {
                             rotYAvg = takeAvg(rotYList)
                             rotZAvg = takeAvg(rotZList)
                             rotWAvg = takeAvg(rotWList)
+
+                            println("accelXAvg: $accelXAvg")
+                            println("accelYAvg: $accelYAvg")
+                            println("accelZAvg: $accelZAvg")
+
+                            println("=====================================================")
 
                             println("gravXAvg: $gravXAvg")
                             println("gravYAvg: $gravYAvg")
@@ -216,6 +240,10 @@ class HomeFragment : Fragment(), SensorEventListener {
                             println("rotWAvg: $rotWAvg")
 
                             // clear the arraylists (to conserve memory & start fresh for next button press)
+                            accelXList?.clear()
+                            accelYList?.clear()
+                            accelZList?.clear()
+
                             gravXList?.clear()
                             gravYList?.clear()
                             gravZList?.clear()
@@ -244,6 +272,10 @@ class HomeFragment : Fragment(), SensorEventListener {
                     if (countdown > 0) {
                         mToast.setText("Keep pressing down for: ${countdown--} seconds!")
                         mToast.show()
+
+                        accelXList?.add(accelX)
+                        accelYList?.add(accelY)
+                        accelZList?.add(accelZ)
 
                         gravXList?.add(gravX)
                         gravYList?.add(gravY)
@@ -291,7 +323,11 @@ class HomeFragment : Fragment(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent) {
         // most sensors return 3 values, one for each axis
 
-        if (event.sensor.type == Sensor.TYPE_GRAVITY) {
+        if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+            accelX = event.values[0]
+            accelY = event.values[1]
+            accelZ = event.values[2]
+        }else if (event.sensor.type == Sensor.TYPE_GRAVITY) {
             gravX = event.values[0]
             gravY = event.values[1]
             gravZ = event.values[2]
@@ -311,6 +347,10 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
+        mAccel?.also { accelerometer ->
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+
         mGravity?.also { gravity ->
             sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL)
         }
