@@ -92,6 +92,21 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     // =======================================================================
 
+    private var gravXAvgOffset: Float = 0F
+    private var gravYAvgOffset: Float = 0F
+    private var gravZAvgOffset: Float = 0F
+
+    private var laccelXAvgOffset: Float = 0F
+    private var laccelYAvgOffset: Float = 0F
+    private var laccelZAvgOffset: Float = 0F
+
+    private var rotXAvgOffset: Float = 0F
+    private var rotYAvgOffset: Float = 0F
+    private var rotZAvgOffset: Float = 0F
+    private var rotWAvgOffset: Float = 0F
+
+    // =======================================================================
+
     private var accelXList: ArrayList<Float>? = null
     private var accelYList: ArrayList<Float>? = null
     private var accelZList: ArrayList<Float>? = null
@@ -203,7 +218,11 @@ class HomeFragment : Fragment(), SensorEventListener {
 
                             // check whether device is at rest (e.g., lying down stationary on table)
                             calcAtRest()
-                            printRestAvgs()
+//                            printRestAvgs()
+
+                            // calculate the offsets between resting-state & non-resting-state sensor readings
+                            calcOffsets()
+                            printOffsets()
 
                             // call method(s) to evaluate resting tremor given averaged sensor readings
                         }
@@ -260,6 +279,27 @@ class HomeFragment : Fragment(), SensorEventListener {
             rotYAvgRest = rotYAvg
             rotZAvgRest = rotZAvg
             rotWAvgRest = rotWAvg
+
+            printRestAvgs()
+        }
+    }
+
+    private fun calcOffsets() { // calculates offset between resting-state & non-resting sensor readings
+
+        if (atRest) { // only calculate if resting-state data exists
+
+            gravXAvgOffset = gravXAvg - gravXAvgRest
+            gravYAvgOffset = gravYAvg - gravYAvgRest
+            gravZAvgOffset = gravZAvg - gravZAvgRest
+
+            laccelXAvgOffset = laccelXAvg - laccelXAvgRest
+            laccelYAvgOffset = laccelYAvg - laccelYAvgRest
+            laccelZAvgOffset = laccelZAvg - laccelZAvgRest
+
+            rotXAvgOffset = rotXAvg - rotXAvgRest
+            rotYAvgOffset = rotYAvg - rotYAvgRest
+            rotZAvgOffset = rotZAvg - rotZAvgRest
+            rotWAvgOffset = rotWAvg - rotWAvgRest
         }
     }
 
@@ -385,6 +425,30 @@ class HomeFragment : Fragment(), SensorEventListener {
         println("rotYAvgRest: $rotYAvgRest")
         println("rotZAvgRest: $rotZAvgRest")
         println("rotWAvgRest: $rotWAvgRest")
+
+        println("=====================================================")
+    }
+
+    private fun printOffsets() { // prints resting-state average sensor readings
+
+        println("gravXAvgOffset: $gravXAvgOffset")
+        println("gravYAvgOffset: $gravYAvgOffset")
+        println("gravZAvgOffset: $gravZAvgOffset")
+
+        println("=====================================================")
+
+        println("laccelXAvgOffset: $laccelXAvgOffset")
+        println("laccelYAvgOffset: $laccelYAvgOffset")
+        println("laccelZAvgOffset: $laccelZAvgOffset")
+
+        println("=====================================================")
+
+        println("rotXAvgOffset: $rotXAvgOffset")
+        println("rotYAvgOffset: $rotYAvgOffset")
+        println("rotZAvgOffset: $rotZAvgOffset")
+        println("rotWAvgOffset: $rotWAvgOffset")
+
+        println("=====================================================")
     }
 
     private fun clearLists() {
