@@ -21,6 +21,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkinsonarplus.databinding.FragmentHomeBinding
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class HomeFragment : Fragment(), SensorEventListener {
@@ -256,6 +257,14 @@ class HomeFragment : Fragment(), SensorEventListener {
                             rotYList?.clear()
                             rotZList?.clear()
                             rotWList?.clear()
+
+                            // check whether device is at rest (e.g., lying down stationary on table)
+                            if (accelXAvg.roundToInt() == gravXAvg.roundToInt() &&
+                                accelYAvg.roundToInt() == gravYAvg.roundToInt() &&
+                                accelZAvg.roundToInt() == gravZAvg.roundToInt()) {
+
+                                println("device at rest!")
+                            }
 
                             // call method(s) to evaluate resting tremor given averaged sensor readings
                         }
