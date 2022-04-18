@@ -244,22 +244,24 @@ class HomeFragment : Fragment(), SensorEventListener {
                     if (countdown > 0) {
                         mToast.setText("Keep pressing down for: ${countdown--} seconds!")
                         mToast.show()
+
+                        gravXList?.add(gravX)
+                        gravYList?.add(gravY)
+                        gravZList?.add(gravZ)
+
+                        laccelXList?.add(laccelX)
+                        laccelYList?.add(laccelY)
+                        laccelZList?.add(laccelZ)
+
+                        rotXList?.add(rotvecX)
+                        rotYList?.add(rotvecY)
+                        rotZList?.add(rotvecZ)
+                        rotWList?.add(rotvecW)
+
                     } else {
-                        Toast.makeText(view.context, "              STOP pressing down!              ", Toast.LENGTH_LONG).show()
+                        mToast.setText("              STOP pressing down!              ")
+                        mToast.show()
                     }
-
-                    gravXList?.add(gravX)
-                    gravYList?.add(gravY)
-                    gravZList?.add(gravZ)
-
-                    laccelXList?.add(laccelX)
-                    laccelYList?.add(laccelY)
-                    laccelZList?.add(laccelZ)
-
-                    rotXList?.add(rotvecX)
-                    rotYList?.add(rotvecY)
-                    rotZList?.add(rotvecZ)
-                    rotWList?.add(rotvecW)
 
                     mHandler?.postDelayed(this, 1000)
                 }
