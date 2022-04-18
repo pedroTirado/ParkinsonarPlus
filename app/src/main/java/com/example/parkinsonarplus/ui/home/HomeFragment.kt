@@ -21,7 +21,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkinsonarplus.databinding.FragmentHomeBinding
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.pow
 import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 class HomeFragment : Fragment(), SensorEventListener {
 
@@ -204,27 +207,38 @@ class HomeFragment : Fragment(), SensorEventListener {
                         if (mHandler == null)
                             return true
                         else {
-                            countdown = 10 // reset countdown
-
                             mHandler!!.removeCallbacks(mAction)
                             mHandler = null
 
-                            printLists()
-                            // average the sensor values
-                            takeAvgs()
-                            printAvgs()
-                            // clear the arraylists (to conserve memory & start fresh for next button press)
-                            clearLists()
+                            if (countdown == 0) {
 
-                            // check whether device is at rest (e.g., lying down stationary on table)
-                            calcAtRest()
+//                            printLists()
+                                // average the sensor values
+                                takeAvgs()
+//                                printAvgs()
+                                // clear the arraylists (to conserve memory & start fresh for next button press)
+                                clearLists()
+
+                                // check whether device is at rest (e.g., lying down stationary on table)
+                                calcAtRest()
+                                viewModel.atRest.value = atRest
 //                            printRestAvgs()
 
-                            // calculate the offsets between resting-state & non-resting-state sensor readings
-                            calcOffsets()
-                            printOffsets()
+                                // calculate the offsets between resting-state & non-resting-state sensor readings
+                                calcOffsets()
+//                                printOffsets()
 
-                            // call method(s) to evaluate resting tremor given averaged sensor readings
+                                val laccelMagn: Float = sqrt(laccelXAvgOffset.pow(2) + laccelYAvgOffset.pow(2) + laccelZAvgOffset.pow(2))
+//                                println("laccelMagn: $laccelMagn")
+
+                                // call method(s) to evaluate resting tremor given averaged sensor readings
+                                viewModel.gravZ.value = gravZAvg // > 9.0 ---> flat orientation
+                                viewModel.laccelMagn.value = laccelMagn // > 0.5 ---> tremor+
+                            } else {
+                                Toast.makeText(view.context, "             You let go too soon!             ", Toast.LENGTH_LONG).show()
+                            }
+                            countdown = 10 // reset countdown
+                            System.gc() // need to run garbage collector or else app might crash from consuming too many resources
                         }
                     }
                 }
@@ -256,7 +270,7 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     private fun calcAtRest() { // calculates resting-state sensor readings
 
-        if (atRest)
+        if (atRest == true)
             return // short-circuit (don't want to calculate resting-state data more than once)
 
         if (accelXAvg.roundToInt() == gravXAvg.roundToInt() &&
@@ -280,7 +294,7 @@ class HomeFragment : Fragment(), SensorEventListener {
             rotZAvgRest = rotZAvg
             rotWAvgRest = rotWAvg
 
-            printRestAvgs()
+//            printRestAvgs()
         }
     }
 
@@ -380,12 +394,25 @@ class HomeFragment : Fragment(), SensorEventListener {
         return avg
     }
 
-    private fun printAvgs() {
-        println("accelXAvg: $accelXAvg")
-        println("accelYAvg: $accelYAvg")
-        println("accelZAvg: $accelZAvg")
+    private fun calcSD(sensorList: ArrayList<Float>, sensorAvg: Float): Double {
 
-        println("=====================================================")
+        var standardDeviation: Double = 0.0
+
+        for (num in sensorList) {
+            standardDeviation += ((num - sensorAvg).toDouble()).pow(2.0)
+        }
+
+        println("stand. dev: $standardDeviation")
+
+        return 100*sqrt(standardDeviation / sensorList.size.toDouble())
+    }
+
+    private fun printAvgs() {
+//        println("accelXAvg: $accelXAvg")
+//        println("accelYAvg: $accelYAvg")
+//        println("accelZAvg: $accelZAvg")
+//
+//        println("=====================================================")
 
         println("gravXAvg: $gravXAvg")
         println("gravYAvg: $gravYAvg")

@@ -79,12 +79,12 @@
             tools:layout_editor_absoluteY="378dp">
 
             <TextView
-                android:id="@+id/text_sensorAxis"
+                android:id="@+id/text_sensor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text="@string/sensor_axis"
+                android:text="@string/sensor"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
                 tools:layout_conversion_absoluteHeight="55dp"
@@ -92,12 +92,12 @@
                 tools:layout_editor_absoluteY="365dp" />
 
             <TextView
-                android:id="@+id/text_gyro"
+                android:id="@+id/text_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text="@string/gyro"
+                android:text="@string/reading"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
                 tools:layout_conversion_absoluteHeight="55dp"
@@ -123,18 +123,18 @@
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text="@string/gyro_x"
+                android:text="Device Flat?"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/text_gyroX"
+                android:id="@+id/text_flat"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text=" Text"
+                android:text="-"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </TableRow>
@@ -156,18 +156,18 @@
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text="Gyro Y"
+                android:text="Shakiness:"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/text_gyroY"
+                android:id="@+id/text_accel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text=" Text"
+                android:text="-"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -189,18 +189,18 @@
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text="Gyro Z"
+                android:text="Tremor Detected?"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/text_gyroZ"
+                android:id="@+id/text_tremor"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text=" Text"
+                android:text=" -"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -239,21 +239,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.512" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="200dp"
-        android:layout_marginBottom="100dp"
-        android:text="Tremor Detected:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

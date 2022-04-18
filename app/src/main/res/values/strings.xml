@@ -12,4 +12,6 @@
     <string name="calories">Calories</string>
     <string name="sensor_axis">Sensor Axis</string>
     <string name="data_captured_on">Data captured on:</string>
+    <string name="reading">Reading</string>
+    <string name="sensor">Sensor</string>
 </resources>
