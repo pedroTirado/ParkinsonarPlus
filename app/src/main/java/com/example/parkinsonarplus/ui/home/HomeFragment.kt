@@ -30,7 +30,7 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
 
-//    private var mGyro: Sensor? = null // gyroscope (raw input; hardware-based)
+    //    private var mGyro: Sensor? = null // gyroscope (raw input; hardware-based)
     private var mAccel: Sensor? = null // accelerometer (raw input; hardware-based)
     private var mGravity: Sensor? = null // gravity sensor (non-raw input; software-based)
     private var mLinaccel: Sensor? = null // linear accelerometer (non-raw input; software-based)
@@ -78,6 +78,23 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     // =======================================================================
 
+    // =======================================================================
+
+    private var gravXAvgRest: Float = 0F
+    private var gravYAvgRest: Float = 0F
+    private var gravZAvgRest: Float = 0F
+
+    private var laccelXAvgRest: Float = 0F
+    private var laccelYAvgRest: Float = 0F
+    private var laccelZAvgRest: Float = 0F
+
+    private var rotXAvgRest: Float = 0F
+    private var rotYAvgRest: Float = 0F
+    private var rotZAvgRest: Float = 0F
+    private var rotWAvgRest: Float = 0F
+
+    // =======================================================================
+
     private var accelXList: ArrayList<Float>? = null
     private var accelYList: ArrayList<Float>? = null
     private var accelZList: ArrayList<Float>? = null
@@ -94,6 +111,8 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var rotYList: ArrayList<Float>? = null
     private var rotZList: ArrayList<Float>? = null
     private var rotWList: ArrayList<Float>? = null
+
+    private var atRest: Boolean = false // assumed device NOT at resting position by default
 
     private val viewModel: HomeViewModel by activityViewModels() // for inter-fragment communication
 
@@ -173,98 +192,20 @@ class HomeFragment : Fragment(), SensorEventListener {
                         if (mHandler == null)
                             return true
                         else {
+                            countdown = 10 // reset countdown
+
                             mHandler!!.removeCallbacks(mAction)
                             mHandler = null
 
-                            countdown = 10 // reset countdown
-
-                            println("accelXList: ${accelXList.toString()}")
-                            println("accelYList: ${accelYList.toString()}")
-                            println("accelZList: ${accelZList.toString()}")
-
-                            println("gravXList: ${gravXList.toString()}")
-                            println("gravYList: ${gravYList.toString()}")
-                            println("gravZList: ${gravZList.toString()}")
-//
-//                            println("=====================================================")
-//
-//                            println("laccelXList: ${laccelXList.toString()}")
-//                            println("laccelYList: ${laccelYList.toString()}")
-//                            println("laccelZList: ${laccelZList.toString()}")
-//
-//                            println("=====================================================")
-//
-//                            println("rotXList: ${rotXList.toString()}")
-//                            println("rotYList: ${rotYList.toString()}")
-//                            println("rotZList: ${rotZList.toString()}")
-//                            println("rotWList: ${rotWList.toString()}")
-
+                            printLists()
                             // average the sensor values
-                            accelXAvg = takeAvg(accelXList)
-                            accelYAvg = takeAvg(accelYList)
-                            accelZAvg = takeAvg(accelZList)
-
-                            gravXAvg = takeAvg(gravXList)
-                            gravYAvg = takeAvg(gravYList)
-                            gravZAvg = takeAvg(gravZList)
-
-                            laccelXAvg = takeAvg(laccelXList)
-                            laccelYAvg = takeAvg(laccelYList)
-                            laccelZAvg = takeAvg(laccelZList)
-
-                            rotXAvg = takeAvg(rotXList)
-                            rotYAvg = takeAvg(rotYList)
-                            rotZAvg = takeAvg(rotZList)
-                            rotWAvg = takeAvg(rotWList)
-
-                            println("accelXAvg: $accelXAvg")
-                            println("accelYAvg: $accelYAvg")
-                            println("accelZAvg: $accelZAvg")
-
-                            println("=====================================================")
-
-                            println("gravXAvg: $gravXAvg")
-                            println("gravYAvg: $gravYAvg")
-                            println("gravZAvg: $gravZAvg")
-
-                            println("=====================================================")
-
-                            println("laccelXAvg: $laccelXAvg")
-                            println("laccelYAvg: $laccelYAvg")
-                            println("laccelZAvg: $laccelZAvg")
-
-                            println("=====================================================")
-
-                            println("rotXAvg: $rotXAvg")
-                            println("rotYAvg: $rotYAvg")
-                            println("rotZAvg: $rotZAvg")
-                            println("rotWAvg: $rotWAvg")
-
+                            takeAvgs()
+                            printAvgs()
                             // clear the arraylists (to conserve memory & start fresh for next button press)
-                            accelXList?.clear()
-                            accelYList?.clear()
-                            accelZList?.clear()
-
-                            gravXList?.clear()
-                            gravYList?.clear()
-                            gravZList?.clear()
-
-                            laccelXList?.clear()
-                            laccelYList?.clear()
-                            laccelZList?.clear()
-
-                            rotXList?.clear()
-                            rotYList?.clear()
-                            rotZList?.clear()
-                            rotWList?.clear()
+                            clearLists()
 
                             // check whether device is at rest (e.g., lying down stationary on table)
-                            if (accelXAvg.roundToInt() == gravXAvg.roundToInt() &&
-                                accelYAvg.roundToInt() == gravYAvg.roundToInt() &&
-                                accelZAvg.roundToInt() == gravZAvg.roundToInt()) {
-
-                                println("device at rest!")
-                            }
+                            calcAtRest()
 
                             // call method(s) to evaluate resting tremor given averaged sensor readings
                         }
@@ -282,22 +223,8 @@ class HomeFragment : Fragment(), SensorEventListener {
                         mToast.setText("Keep pressing down for: ${countdown--} seconds!")
                         mToast.show()
 
-                        accelXList?.add(accelX)
-                        accelYList?.add(accelY)
-                        accelZList?.add(accelZ)
-
-                        gravXList?.add(gravX)
-                        gravYList?.add(gravY)
-                        gravZList?.add(gravZ)
-
-                        laccelXList?.add(laccelX)
-                        laccelYList?.add(laccelY)
-                        laccelZList?.add(laccelZ)
-
-                        rotXList?.add(rotvecX)
-                        rotYList?.add(rotvecY)
-                        rotZList?.add(rotvecZ)
-                        rotWList?.add(rotvecW)
+                        // add current X,Y,Z,... sensor values to their corresp. lists
+                        buildLists()
 
                     } else {
                         mToast.setText("              STOP pressing down!              ")
@@ -308,6 +235,97 @@ class HomeFragment : Fragment(), SensorEventListener {
                 }
             }
         })
+    }
+
+    private fun calcAtRest() { // calculates resting-state sensor readings
+
+        if (atRest)
+            return // short-circuit (don't want to calculate resting-state data more than once)
+
+        if (accelXAvg.roundToInt() == gravXAvg.roundToInt() &&
+            accelYAvg.roundToInt() == gravYAvg.roundToInt() &&
+            accelZAvg.roundToInt() == gravZAvg.roundToInt()) {
+
+            println("device at rest!")
+
+            atRest = true
+
+            gravXAvgRest = gravXAvg
+            gravYAvgRest = gravYAvg
+            gravZAvgRest = gravZAvg
+
+            laccelXAvgRest = laccelXAvg
+            laccelYAvgRest = laccelYAvg
+            laccelZAvgRest = laccelZAvg
+
+            rotXAvgRest = rotXAvg
+            rotYAvgRest = rotYAvg
+            rotZAvgRest = rotZAvg
+            rotWAvgRest = rotWAvg
+        }
+    }
+
+    private fun buildLists() {
+        accelXList?.add(accelX)
+        accelYList?.add(accelY)
+        accelZList?.add(accelZ)
+
+        gravXList?.add(gravX)
+        gravYList?.add(gravY)
+        gravZList?.add(gravZ)
+
+        laccelXList?.add(laccelX)
+        laccelYList?.add(laccelY)
+        laccelZList?.add(laccelZ)
+
+        rotXList?.add(rotvecX)
+        rotYList?.add(rotvecY)
+        rotZList?.add(rotvecZ)
+        rotWList?.add(rotvecW)
+    }
+
+    private fun printLists() {
+        println("accelXList: ${accelXList.toString()}")
+        println("accelYList: ${accelYList.toString()}")
+        println("accelZList: ${accelZList.toString()}")
+
+        println("=====================================================")
+
+        println("gravXList: ${gravXList.toString()}")
+        println("gravYList: ${gravYList.toString()}")
+        println("gravZList: ${gravZList.toString()}")
+
+        println("=====================================================")
+
+        println("laccelXList: ${laccelXList.toString()}")
+        println("laccelYList: ${laccelYList.toString()}")
+        println("laccelZList: ${laccelZList.toString()}")
+
+        println("=====================================================")
+
+        println("rotXList: ${rotXList.toString()}")
+        println("rotYList: ${rotYList.toString()}")
+        println("rotZList: ${rotZList.toString()}")
+        println("rotWList: ${rotWList.toString()}")
+    }
+
+    private fun takeAvgs() {
+        accelXAvg = takeAvg(accelXList)
+        accelYAvg = takeAvg(accelYList)
+        accelZAvg = takeAvg(accelZList)
+
+        gravXAvg = takeAvg(gravXList)
+        gravYAvg = takeAvg(gravYList)
+        gravZAvg = takeAvg(gravZList)
+
+        laccelXAvg = takeAvg(laccelXList)
+        laccelYAvg = takeAvg(laccelYList)
+        laccelZAvg = takeAvg(laccelZList)
+
+        rotXAvg = takeAvg(rotXList)
+        rotYAvg = takeAvg(rotYList)
+        rotZAvg = takeAvg(rotZList)
+        rotWAvg = takeAvg(rotWList)
     }
 
     private fun takeAvg(sensorList: ArrayList<Float>?): Float { // takes the avg. of param. list
@@ -322,6 +340,50 @@ class HomeFragment : Fragment(), SensorEventListener {
             avg = runSum / sensorList.size
         }
         return avg
+    }
+
+    private fun printAvgs() {
+        println("accelXAvg: $accelXAvg")
+        println("accelYAvg: $accelYAvg")
+        println("accelZAvg: $accelZAvg")
+
+        println("=====================================================")
+
+        println("gravXAvg: $gravXAvg")
+        println("gravYAvg: $gravYAvg")
+        println("gravZAvg: $gravZAvg")
+
+        println("=====================================================")
+
+        println("laccelXAvg: $laccelXAvg")
+        println("laccelYAvg: $laccelYAvg")
+        println("laccelZAvg: $laccelZAvg")
+
+        println("=====================================================")
+
+        println("rotXAvg: $rotXAvg")
+        println("rotYAvg: $rotYAvg")
+        println("rotZAvg: $rotZAvg")
+        println("rotWAvg: $rotWAvg")
+    }
+
+    private fun clearLists() {
+        accelXList?.clear()
+        accelYList?.clear()
+        accelZList?.clear()
+
+        gravXList?.clear()
+        gravYList?.clear()
+        gravZList?.clear()
+
+        laccelXList?.clear()
+        laccelYList?.clear()
+        laccelZList?.clear()
+
+        rotXList?.clear()
+        rotYList?.clear()
+        rotZList?.clear()
+        rotWList?.clear()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
