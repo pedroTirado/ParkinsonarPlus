@@ -23,7 +23,6 @@ import com.example.parkinsonarplus.databinding.FragmentHomeBinding
 import java.util.*
 import kotlin.math.roundToInt
 
-
 class HomeFragment : Fragment(), SensorEventListener {
 
     private var _binding: FragmentHomeBinding? = null
@@ -75,8 +74,6 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var rotYAvg: Float = 0F
     private var rotZAvg: Float = 0F
     private var rotWAvg: Float = 0F
-
-    // =======================================================================
 
     // =======================================================================
 
@@ -206,6 +203,7 @@ class HomeFragment : Fragment(), SensorEventListener {
 
                             // check whether device is at rest (e.g., lying down stationary on table)
                             calcAtRest()
+                            printRestAvgs()
 
                             // call method(s) to evaluate resting tremor given averaged sensor readings
                         }
@@ -365,6 +363,28 @@ class HomeFragment : Fragment(), SensorEventListener {
         println("rotYAvg: $rotYAvg")
         println("rotZAvg: $rotZAvg")
         println("rotWAvg: $rotWAvg")
+
+        println("=====================================================")
+    }
+
+    private fun printRestAvgs() { // prints resting-state average sensor readings
+
+        println("gravXAvgRest: $gravXAvgRest")
+        println("gravYAvgRest: $gravYAvgRest")
+        println("gravZAvgRest: $gravZAvgRest")
+
+        println("=====================================================")
+
+        println("laccelXAvgRest: $laccelXAvgRest")
+        println("laccelYAvgRest: $laccelYAvgRest")
+        println("laccelZAvgRest: $laccelZAvgRest")
+
+        println("=====================================================")
+
+        println("rotXAvgRest: $rotXAvgRest")
+        println("rotYAvgRest: $rotYAvgRest")
+        println("rotZAvgRest: $rotZAvgRest")
+        println("rotWAvgRest: $rotWAvgRest")
     }
 
     private fun clearLists() {
