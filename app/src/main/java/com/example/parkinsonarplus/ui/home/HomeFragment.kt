@@ -15,6 +15,7 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -53,6 +54,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var rotvecX: Float = 0F // device orientation (unitless)
     private var rotvecY: Float = 0F
     private var rotvecZ: Float = 0F
+    private var rotvecW: Float = 0F // magnitude of rotational vector
 
     // =======================================================================
 
@@ -67,6 +69,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var rotXAvg: Float = 0F
     private var rotYAvg: Float = 0F
     private var rotZAvg: Float = 0F
+    private var rotWAvg: Float = 0F
 
     // =======================================================================
 
@@ -81,6 +84,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var rotXList: ArrayList<Float>? = null
     private var rotYList: ArrayList<Float>? = null
     private var rotZList: ArrayList<Float>? = null
+    private var rotWList: ArrayList<Float>? = null
 
     private val viewModel: HomeViewModel by activityViewModels() // for inter-fragment communication
 
@@ -124,6 +128,7 @@ class HomeFragment : Fragment(), SensorEventListener {
         rotXList = ArrayList<Float>(20)
         rotYList = ArrayList<Float>(20)
         rotZList = ArrayList<Float>(20)
+        rotWList = ArrayList<Float>(20)
 
         return root
     }
@@ -141,6 +146,8 @@ class HomeFragment : Fragment(), SensorEventListener {
 
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
+
+                        Toast.makeText(view.context, "Keep pressing down for 10 seconds!", Toast.LENGTH_LONG).show()
 
                         if (mHandler != null)
                             return true
@@ -171,6 +178,7 @@ class HomeFragment : Fragment(), SensorEventListener {
                             println("rotXList: ${rotXList.toString()}")
                             println("rotYList: ${rotYList.toString()}")
                             println("rotZList: ${rotZList.toString()}")
+                            println("rotWList: ${rotWList.toString()}")
 
                             // average the sensor values
                             gravXAvg = takeAvg(gravXList)
@@ -184,6 +192,7 @@ class HomeFragment : Fragment(), SensorEventListener {
                             rotXAvg = takeAvg(rotXList)
                             rotYAvg = takeAvg(rotYList)
                             rotZAvg = takeAvg(rotZList)
+                            rotWAvg = takeAvg(rotWList)
 
                             println("gravXAvg: $gravXAvg")
                             println("gravYAvg: $gravYAvg")
@@ -200,6 +209,7 @@ class HomeFragment : Fragment(), SensorEventListener {
                             println("rotXAvg: $rotXAvg")
                             println("rotYAvg: $rotYAvg")
                             println("rotZAvg: $rotZAvg")
+                            println("rotWAvg: $rotWAvg")
 
                             // clear the arraylists (to conserve memory & start fresh for next button press)
                             gravXList?.clear()
@@ -213,6 +223,7 @@ class HomeFragment : Fragment(), SensorEventListener {
                             rotXList?.clear()
                             rotYList?.clear()
                             rotZList?.clear()
+                            rotWList?.clear()
 
                             // call method(s) to evaluate resting tremor given averaged sensor readings
                         }
@@ -235,6 +246,7 @@ class HomeFragment : Fragment(), SensorEventListener {
                     rotXList?.add(rotvecX)
                     rotYList?.add(rotvecY)
                     rotZList?.add(rotvecZ)
+                    rotWList?.add(rotvecW)
 
                     mHandler?.postDelayed(this, 1000)
                 }
@@ -276,6 +288,7 @@ class HomeFragment : Fragment(), SensorEventListener {
             rotvecX = event.values[0]
             rotvecY = event.values[1]
             rotvecZ = event.values[2]
+            rotvecW = event.values[3]
         } else {
             println("WARN: Attempting to listen to sensor of unknown type!")
         }
