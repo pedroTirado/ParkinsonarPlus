@@ -136,6 +136,8 @@ class HomeFragment : Fragment(), SensorEventListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        var countdown: Int = 10
+
         // log/record sensor inputs
 
         binding.buttonTremor.setOnTouchListener(object : OnTouchListener {
@@ -147,7 +149,7 @@ class HomeFragment : Fragment(), SensorEventListener {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
 
-                        Toast.makeText(view.context, "Keep pressing down for 10 seconds!", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(view.context, "Keep pressing down for 10 seconds!", Toast.LENGTH_LONG).show()
 
                         if (mHandler != null)
                             return true
@@ -163,22 +165,24 @@ class HomeFragment : Fragment(), SensorEventListener {
                             mHandler!!.removeCallbacks(mAction)
                             mHandler = null
 
+                            countdown = 10 // reset countdown
+
                             println("gravXList: ${gravXList.toString()}")
                             println("gravYList: ${gravYList.toString()}")
                             println("gravZList: ${gravZList.toString()}")
-
-                            println("=====================================================")
-
-                            println("laccelXList: ${laccelXList.toString()}")
-                            println("laccelYList: ${laccelYList.toString()}")
-                            println("laccelZList: ${laccelZList.toString()}")
-
-                            println("=====================================================")
-
-                            println("rotXList: ${rotXList.toString()}")
-                            println("rotYList: ${rotYList.toString()}")
-                            println("rotZList: ${rotZList.toString()}")
-                            println("rotWList: ${rotWList.toString()}")
+//
+//                            println("=====================================================")
+//
+//                            println("laccelXList: ${laccelXList.toString()}")
+//                            println("laccelYList: ${laccelYList.toString()}")
+//                            println("laccelZList: ${laccelZList.toString()}")
+//
+//                            println("=====================================================")
+//
+//                            println("rotXList: ${rotXList.toString()}")
+//                            println("rotYList: ${rotYList.toString()}")
+//                            println("rotZList: ${rotZList.toString()}")
+//                            println("rotWList: ${rotWList.toString()}")
 
                             // average the sensor values
                             gravXAvg = takeAvg(gravXList)
@@ -234,6 +238,15 @@ class HomeFragment : Fragment(), SensorEventListener {
 
             var mAction: Runnable = object : Runnable {
                 override fun run() {
+
+                    val mToast: Toast = Toast.makeText(view.context, "Keep pressing down for: $countdown seconds!", Toast.LENGTH_SHORT)
+
+                    if (countdown > 0) {
+                        mToast.setText("Keep pressing down for: ${countdown--} seconds!")
+                        mToast.show()
+                    } else {
+                        Toast.makeText(view.context, "              STOP pressing down!              ", Toast.LENGTH_LONG).show()
+                    }
 
                     gravXList?.add(gravX)
                     gravYList?.add(gravY)
